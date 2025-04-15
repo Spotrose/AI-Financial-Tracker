@@ -28,6 +28,33 @@ This repository includes the foundational logic for transaction categorization, 
 
 ---
 
+## Installation 🛠️
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/AI_Financial_Tracker.git
+   cd AI_Financial_Tracker
+   ```
+
+2. Set up virtual environment:
+   ```
+   python -m venv myenv
+   source myenv/bin/activate  # Linux/Mac
+   myenv\Scripts\activate     # Windows
+   ```
+
+3. Install dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+
+
+### Web Interface
+```
+Access at `http://localhost:5000`
+```
+
+
 ## 🛠️ Core Features
 
 ### 1. Natural Language Processing
@@ -117,33 +144,6 @@ AI_Financial_Tracker/
 - Investment strategy generator
 - Debt payoff optimizer
 - Emergency fund calculator
-
-## Installation 🛠️
-
-1. Clone the repository:
-   ```
-   git clone https://github.com/yourusername/AI_Financial_Tracker.git
-   cd AI_Financial_Tracker
-   ```
-
-2. Set up virtual environment:
-   ```
-   python -m venv myenv
-   source myenv/bin/activate  # Linux/Mac
-   myenv\Scripts\activate     # Windows
-   ```
-
-3. Install dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-
-
-### Web Interface
-```
-Access at `http://localhost:5000`
-```
-
 
 
 ## 🧠 Sample Categories
