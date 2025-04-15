@@ -1,0 +1,31 @@
+# Web Framework
+Flask>=2.0.1
+Werkzeug>=2.0.1
+
+# Database
+SQLite3
+
+# Data Processing
+pandas>=1.3.0
+numpy>=1.21.0
+
+# Natural Language Processing
+regex>=2021.8.3
+python-dateutil>=2.8.2
+
+# Testing
+pytest>=6.2.5
+pytest-cov>=2.12.1
+
+# Utilities
+python-dotenv>=0.19.0
+fuzzywuzzy>=0.18.0
+python-Levenshtein>=0.12.2  # For better performance with fuzzywuzzy
+typing-extensions>=3.10.0
+
+# Logging
+logging>=0.5.1.2
+
+# Development Tools
+black>=21.7b0  # Code formatting
+flake8>=3.9.2  # Code linting
