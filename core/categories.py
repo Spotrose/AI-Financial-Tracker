@@ -108,7 +108,7 @@ def suggest_category(description: str, transaction_type: str = 'expense') -> Tup
     if best_match and score >= 80:
         main_cat = get_main_category(best_match)
         if main_cat and validate_category(transaction_type, main_cat, best_match):
-            return (main_cat, best_cat)
+            return (main_cat, best_match)
 
     # Step 3: Word-level fuzzy match
     words = description.split()
