@@ -1,4 +1,4 @@
-#app.py
+# app.py
 from flask import Flask, request, jsonify, render_template
 from core.database import DatabaseManager
 from core.nlp_parser import NLPParser
