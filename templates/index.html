@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Financial Tracker</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 40px;
+            background-color: #f7f8fa;
+            color: #333;
+        }
+
+        h1 {
+            color: #004d40;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #00796b;
+            border-bottom: 2px solid #b2dfdb;
+            padding-bottom: 5px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        form, textarea {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        input, select, textarea, button {
+            font-size: 1rem;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            min-width: 180px;
+            flex-grow: 1;
+        }
+
+        button {
+            background-color: #009688;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #00796b;
+        }
+
+        #result {
+            white-space: pre-wrap;
+            background-color: #f0f4c3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #cddc39;
+        }
+
+        label {
+            flex-basis: 100%;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        textarea {
+            min-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>💸 AI Financial Tracker</h1>
+
+    <!-- Manual Transaction Form -->
+    <div class="card">
+        <h2>📋 Add Transaction Manually</h2>
+        <form id="transactionForm">
+            <input type="date" name="date" required>
+            <input type="text" name="description" placeholder="Description" required>
+            <input type="number" name="amount" placeholder="Amount (INR)" step="0.01" required>
+
+            <select name="main_category" id="main_category" required>
+                <option value="">Select Main Category</option>
+                {% for main_cat in categories.keys() %}
+                    <option value="{{ main_cat }}">{{ main_cat }}</option>
+                {% endfor %}
+            </select>
+
+            <select name="sub_category" id="sub_category" required>
+                <option value="">Select Sub Category</option>
+            </select>
+
+            <select name="type">
+                <option value="expense">Expense</option>
+                <option value="income">Income</option>
+            </select>
+
+            <input type="text" name="person" placeholder="Person (optional)">
+            <input type="text" name="group" placeholder="Group (optional)">
+            <button type="submit">Add Transaction</button>
+        </form>
+    </div>
+
+    <!-- NLP Text Input -->
+    <div class="card">
+        <h2>🧠 Add via Text (NLP)</h2>
+        <textarea id="nlpInput" rows="4" placeholder="e.g., I paid 20 rupees for Panipuris and 50 rupees for a movie ticket"></textarea>
+        <br>
+        <button onclick="submitNLP()">Submit Text</button>
+    </div>
+
+    <div id="result"></div>
+
+    <script>
+        const mainCat = document.getElementById('main_category');
+        const subCat = document.getElementById('sub_category');
+        const categories = {{ categories|tojson }};
+
+        mainCat.addEventListener('change', () => {
+            subCat.innerHTML = '<option value="">Select Sub Category</option>';
+            if (mainCat.value && categories[mainCat.value]) {
+                categories[mainCat.value].forEach(sub => {
+                    const option = document.createElement('option');
+                    option.value = sub;
+                    option.text = sub;
+                    subCat.appendChild(option);
+                });
+            } else {
+                console.log(`No subcategories for ${mainCat.value}`);
+            }
+        });
+
+        document.getElementById('transactionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = new FormData(e.target);
+            const data = Object.fromEntries(form);
+            data.amount = parseFloat(data.amount);
+            data.split_ratio = 1;
+
+            const response = await fetch('/transactions', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            document.getElementById('result').innerText = JSON.stringify(result, null, 2);
+        });
+
+        async function submitNLP() {
+            const text = document.getElementById('nlpInput').value;
+            const response = await fetch('/transactions', {
+                method: 'POST',
+                headers: {'Content-Type': 'text/plain'},
+                body: text
+            });
+
+            const result = await response.json();
+            document.getElementById('result').innerText = JSON.stringify(result, null, 2);
+        }
+    </script>
+</body>
+</html>
+<!-- End of index.html -->
